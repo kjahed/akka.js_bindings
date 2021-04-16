@@ -20,30 +20,14 @@ npm install akkajs
 A simple Ping Pong between two actors looks like:
 
 ```javascript
-const akkajs = require("akkajs")
-
-const system = akkajs.ActorSystem.create()
-
 class Pinger extends akkajs.Actor {
-  constructor() {
-    super()
-    this.name = "pinger"
-    this.receive = this.receive.bind(this)
-  }
   receive(msg) {
     console.log("RECEIVED PING")
     this.sender().tell("pong")
   }
 }
 
-const pinger = system.spawn(new Pinger())
-
 class Ponger extends akkajs.Actor {
-  constructor() {
-    super()
-    this.name = "ponger"
-    this.receive = this.receive.bind(this)
-  }
   receive(msg) {
     console.log("RECEIVED PONG")
     this.sender().tell("ping")
@@ -51,7 +35,7 @@ class Ponger extends akkajs.Actor {
 }
 
 const ponger = system.spawn(new Ponger())
-
+const pinger = system.spawn(new Pinger())
 pinger.tell("ping", ponger)
 ```
 
